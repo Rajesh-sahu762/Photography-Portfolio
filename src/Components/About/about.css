@@ -1,0 +1,344 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Michroma&family=Orbitron:wght@400;500;600&display=swap');
+
+/* =========================================
+   ROOT
+========================================= */
+
+:root{
+
+  --bg:#06050c;
+
+  --text:#ffffff;
+
+  --muted:
+    rgba(255,255,255,0.65);
+
+  --accent:#d4a843;
+
+  --font-heading:
+    'Michroma',
+    sans-serif;
+
+  --font-ui:
+    'Orbitron',
+    sans-serif;
+
+  --font-body:
+    'Inter',
+    sans-serif;
+
+}
+
+/* =========================================
+   SECTION
+========================================= */
+
+.ab-section{
+  position:relative;
+
+  width:100%;
+
+  min-height:100vh;
+
+  overflow:hidden;
+
+  background:var(--bg);
+
+  padding:120px 5vw;
+
+  display:flex;
+  align-items:center;
+}
+
+/* =========================================
+   GLOW
+========================================= */
+
+.ab-glow{
+  position:absolute;
+
+  width:700px;
+  height:700px;
+
+  background:
+    radial-gradient(
+
+      circle,
+
+      rgba(212,168,67,0.15),
+
+      transparent 70%
+
+    );
+
+  top:-20%;
+  right:-10%;
+
+  pointer-events:none;
+
+  filter:blur(60px);
+}
+
+/* =========================================
+   CONTAINER
+========================================= */
+
+.ab-container{
+  position:relative;
+
+  z-index:2;
+
+  width:100%;
+
+  display:grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:80px;
+
+  align-items:center;
+}
+
+/* =========================================
+   LEFT CONTENT
+========================================= */
+
+.ab-content{
+  max-width:700px;
+}
+
+.ab-label{
+  color:var(--accent);
+
+  font-size:0.8rem;
+
+  letter-spacing:4px;
+
+  margin-bottom:24px;
+
+  font-family:
+    var(--font-ui);
+}
+
+.ab-heading{
+  display:flex;
+
+  flex-direction:column;
+
+  gap:8px;
+
+  margin-bottom:34px;
+}
+
+.ab-heading-line{
+  display:block;
+
+  font-size:
+    clamp(3.2rem,8vw,7rem);
+
+  line-height:0.95;
+
+  font-weight:400;
+
+  color:var(--text);
+
+  font-family:
+    var(--font-heading);
+}
+
+.ab-heading-line.accent{
+  color:var(--accent);
+
+  font-family:
+    var(--font-ui);
+}
+
+.ab-text{
+  max-width:520px;
+
+  color:var(--muted);
+
+  line-height:1.9;
+
+  font-size:1.05rem;
+
+  margin-bottom:60px;
+
+  font-family:
+    var(--font-body);
+}
+
+/* =========================================
+   STATS
+========================================= */
+
+.ab-stats{
+  display:flex;
+
+  gap:18px;
+
+  flex-wrap:wrap;
+}
+
+.ab-stat{
+  padding:
+    18px 28px;
+
+  border-radius:999px;
+
+  background:
+    rgba(255,255,255,0.04);
+
+  border:
+    1px solid
+    rgba(255,255,255,0.08);
+
+  backdrop-filter:
+    blur(14px);
+}
+
+.ab-stat h3{
+  color:var(--text);
+
+  font-size:1.4rem;
+
+  margin-bottom:4px;
+
+  font-family:
+    var(--font-ui);
+}
+
+.ab-stat p{
+  color:var(--muted);
+
+  font-size:0.82rem;
+
+  letter-spacing:1px;
+}
+
+/* =========================================
+   VIDEO
+========================================= */
+
+.ab-video-wrap{
+  position:relative;
+
+  width:100%;
+
+  display:flex;
+  justify-content:center;
+}
+
+.ab-video-box{
+  position:relative;
+
+  width:100%;
+
+  height:82vh;
+
+  overflow:hidden;
+
+  border-radius:38px;
+
+  background:#111;
+
+  border:
+    1px solid
+    rgba(255,255,255,0.08);
+
+  box-shadow:
+    0 30px 80px
+    rgba(0,0,0,0.45);
+}
+
+
+.ab-heading-line,
+.ab-text,
+.ab-stat{
+  will-change:
+    transform,
+    opacity,
+    filter;
+}
+
+.ab-video{
+  width:100%;
+  height:100%;
+  pointer-events: none;
+
+  object-fit:cover;
+
+  transform:scale(1.05);
+
+  filter:
+    contrast(1.05)
+    brightness(0.95);
+}
+
+/* =========================================
+   GRAIN
+========================================= */
+
+.ab-video-box::after{
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  background-image:
+    url("https://www.transparenttextures.com/patterns/asfalt-light.png");
+
+  opacity:0.08;
+
+  mix-blend-mode:soft-light;
+
+  pointer-events:none;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media(max-width:992px){
+
+  .ab-container{
+
+    grid-template-columns:1fr;
+
+    gap:60px;
+
+  }
+
+  .ab-video-box{
+    height:65vh;
+  }
+
+}
+
+@media(max-width:768px){
+
+  .ab-section{
+    padding:100px 20px;
+  }
+
+  .ab-video-box{
+    height:50vh;
+
+    border-radius:28px;
+  }
+
+  .ab-heading-line{
+    font-size:3rem;
+  }
+
+  .ab-stats{
+    gap:14px;
+  }
+
+  .ab-stat{
+    width:100%;
+  }
+
+}

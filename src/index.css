@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+
+/* =========================
+   GOOGLE FONTS IMPORT
+========================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Michroma&family=Orbitron:wght@400;500;600;700&display=swap');
+
+/* =========================
+   ROOT DESIGN TOKENS
+========================= */
+
+:root {
+
+  /* ========= COLORS ========= */
+
+  --color-bg: #ECE9E2;
+  --color-bg-secondary: #D8D4CE;
+  --color-card: #F7F5F2;
+
+  --color-text: #111111;
+  --color-text-muted: #727272;
+
+  --color-accent: #B86A3D;
+  --color-accent-soft: #D9A07B;
+
+  --color-border: rgba(0,0,0,0.08);
+
+  /* ========= TYPOGRAPHY ========= */
+
+  --font-heading: 'Michroma', sans-serif;
+  --font-ui: 'Orbitron', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* ========= FONT SIZES ========= */
+
+  --text-display-xl: clamp(4rem, 8vw, 8rem);
+  --text-display-lg: clamp(3rem, 6vw, 5rem);
+  --text-display-md: clamp(2rem, 4vw, 3rem);
+
+  --text-body-lg: 1.125rem;
+  --text-body-md: 1rem;
+
+  --text-label: 0.75rem;
+  --text-meta: 0.625rem;
+
+  /* ========= SPACING ========= */
+
+  --space-section: 8rem;
+  --space-container: 4rem;
+  --space-gap: 1.5rem;
+
+  /* ========= EFFECTS ========= */
+
+  --transition-smooth: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+
+  --shadow-soft:
+    0px 32px 64px rgba(0,0,0,0.04);
+
+}
+
+
+
+html{
+  scroll-behavior: smooth;
+}
+
+body{
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+
+html.lenis,
+html.lenis body{
+  height:auto;
+}
+
+.lenis.lenis-smooth{
+  scroll-behavior:auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent]{
+  overscroll-behavior:contain;
+}
+
+.lenis.lenis-stopped{
+  overflow:hidden;
+}
+
+.lenis.lenis-smooth iframe{
+  pointer-events:none;
+}
