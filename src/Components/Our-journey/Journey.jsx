@@ -29,88 +29,68 @@ gsap.registerPlugin(
 const cards = [
 
   {
+    id:"01",
+
+    title:
+      "Wedding Story",
+
+    subtitle:
+      "Udaipur • India",
+
     image:
       "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1400&auto=format&fit=crop",
-
-    title:
-      "Wedding Stories",
-
-    type:
-      "Cinematic Frames",
-
-    rotate:
-      -6,
-
-    speed:
-      -120,
   },
 
   {
-    image:
-      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=1400&auto=format&fit=crop",
+    id:"02",
 
     title:
-      "Travel Moments",
-
-    type:
       "Behind The Lens",
 
-    rotate:
-      5,
+    subtitle:
+      "Tokyo Streets",
 
-    speed:
-      -180,
+    image:
+      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=1400&auto=format&fit=crop",
   },
 
   {
-    image:
-      "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1400&auto=format&fit=crop",
+    id:"03",
 
     title:
       "Studio Process",
 
-    type:
-      "Creative Workflow",
+    subtitle:
+      "Late Night Editing",
 
-    rotate:
-      -4,
-
-    speed:
-      -150,
+    image:
+      "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1400&auto=format&fit=crop",
   },
 
   {
-    image:
-      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1400&auto=format&fit=crop",
+    id:"04",
 
     title:
-      "Emotional Frames",
+      "Travel Frames",
 
-    type:
-      "Captured Naturally",
+    subtitle:
+      "Captured Worldwide",
 
-    rotate:
-      7,
-
-    speed:
-      -220,
-  },
-
-  {
     image:
       "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1400&auto=format&fit=crop",
+  },
+
+  {
+    id:"05",
 
     title:
-      "Worldwide Stories",
+      "Emotional Moments",
 
-    type:
-      "Travel Diaries",
+    subtitle:
+      "Captured Naturally",
 
-    rotate:
-      -8,
-
-    speed:
-      -170,
+    image:
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1400&auto=format&fit=crop",
   },
 
 ];
@@ -120,54 +100,102 @@ export default function Journey(){
   const sectionRef =
     useRef(null);
 
+  const cardsRef =
+    useRef([]);
+
   useEffect(()=>{
 
     const ctx =
       gsap.context(()=>{
 
+        const cardsEl =
+          cardsRef.current;
+
         // =====================================
-        // CARD PARALLAX
+        // INITIAL CARD STATES
         // =====================================
 
-        gsap.utils
-          .toArray(".jr-card")
-          .forEach((card)=>{
+        cardsEl.forEach((card,index)=>{
 
-            const speed =
-              Number(
-                card.dataset.speed
-              );
+          if(index === 0){
 
-            gsap.to(
+            gsap.set(card,{
 
-              card,
+              y:0,
 
-              {
+              opacity:1,
 
-                y:speed,
+            });
 
-                ease:'none',
+          }
 
-                scrollTrigger:{
+          else{
 
-                  trigger:sectionRef.current,
+            gsap.set(card,{
 
-                  start:"top bottom",
+              y:window.innerHeight,
 
-                  end:"bottom top",
+              opacity:1,
 
-                  scrub:true,
+            });
 
-                }
+          }
 
-              }
+        });
 
-            );
+        // =====================================
+        // MASTER TIMELINE
+        // =====================================
+
+        const tl =
+          gsap.timeline({
+
+            scrollTrigger:{
+
+              trigger:sectionRef.current,
+
+              start:"top top",
+
+              end:
+                `+=${cards.length * 700}`,
+
+              pin:true,
+
+              scrub:1,
+
+            }
 
           });
 
         // =====================================
-        // BG TEXT
+        // STACKED CARD ANIMATION
+        // =====================================
+
+        cardsEl.forEach((card,index)=>{
+
+          if(index === 0)
+            return;
+
+          tl.to(
+
+            card,
+
+            {
+
+              y:0,
+
+              duration:1,
+
+              ease:'power3.out',
+
+            }
+
+          );
+
+        });
+
+        // =====================================
+        // BG TEXT PARALLAX
         // =====================================
 
         gsap.to(
@@ -176,7 +204,7 @@ export default function Journey(){
 
           {
 
-            x:-300,
+            x:-200,
 
             ease:'none',
 
@@ -189,50 +217,6 @@ export default function Journey(){
               end:"bottom top",
 
               scrub:true,
-
-            }
-
-          }
-
-        );
-
-        // =====================================
-        // HEADING REVEAL
-        // =====================================
-
-        gsap.fromTo(
-
-          ".jr-reveal",
-
-          {
-
-            y:100,
-
-            opacity:0,
-
-            filter:'blur(10px)',
-
-          },
-
-          {
-
-            y:0,
-
-            opacity:1,
-
-            filter:'blur(0px)',
-
-            stagger:0.15,
-
-            duration:1.3,
-
-            ease:'power4.out',
-
-            scrollTrigger:{
-
-              trigger:".jr-top",
-
-              start:"top 80%",
 
             }
 
@@ -254,7 +238,7 @@ export default function Journey(){
     >
 
       {/* =====================================
-          BACKGROUND TYPOGRAPHY
+          BG TYPOGRAPHY
       ===================================== */}
 
       <div className="jr-bg-text">
@@ -264,122 +248,127 @@ export default function Journey(){
       </div>
 
       {/* =====================================
-          GLOW
-      ===================================== */}
-
-      <div className="jr-glow" />
-
-      {/* =====================================
-          TOP
+          TOP CONTENT
       ===================================== */}
 
       <div className="jr-top">
 
-        <p className="jr-label jr-reveal">
+        <p className="jr-label">
 
           FOLLOW OUR JOURNEY
 
         </p>
 
-        <h2 className="jr-heading jr-reveal">
+        <h2 className="jr-heading">
 
-          Follow Our Journey
+          Follow Our
+          Journey
 
         </h2>
 
-        <p className="jr-subtext jr-reveal">
+        <p className="jr-subtext">
 
           Behind the frames,
           stories, travel,
-          emotions,
-          and moments in motion.
+          emotions, and moments
+          captured through
+          the lens.
 
         </p>
-
-        {/* STATUS */}
-
-        <div className="jr-status jr-reveal">
-
-          <span />
-
-          Capturing stories worldwide
-
-        </div>
 
       </div>
 
       {/* =====================================
-          FLOATING WALL
+          STACK AREA
       ===================================== */}
 
-      <div className="jr-wall">
+      <div className="jr-stack-wrap">
 
-        {
+        <div className="jr-stack">
 
-          cards.map((item,index)=>(
+          {
 
-            <div
+            cards.map((item,index)=>(
 
-              key={index}
+              <div
 
-              className={`jr-card card-${index}`}
+                key={index}
 
-              data-speed={item.speed}
+                ref={(el)=>
+                  cardsRef.current[index]
+                  = el
+                }
 
-              style={{
+                className="jr-card"
 
-                rotate:
-                  `${item.rotate}deg`
+                style={{
 
-              }}
+                  zIndex:
+                    index + 1,
 
-            >
+                  left:
+                    `${index * 55}px`,
 
-              {/* IMAGE */}
+                  top:
+                    `${index * 22}px`,
 
-              <div className="jr-image">
+                }}
 
-                <img
+              >
 
-                  src={item.image}
+                {/* IMAGE */}
 
-                  alt="journey"
+                <div className="jr-image">
 
-                />
+                  <img
 
-              </div>
+                    src={item.image}
 
-              {/* OVERLAY */}
+                    alt="journey"
 
-              <div className="jr-overlay">
-
-                <div>
-
-                  <p>
-
-                    {item.type}
-
-                  </p>
-
-                  <h3>
-
-                    {item.title}
-
-                  </h3>
+                  />
 
                 </div>
 
-                <ArrowUpRight
-                  size={22}
-                />
+                {/* CONTENT */}
+
+                <div className="jr-content">
+
+                  <div>
+
+                    <span>
+
+                      {item.id}
+
+                    </span>
+
+                    <h3>
+
+                      {item.title}
+
+                    </h3>
+
+                    <p>
+
+                      {item.subtitle}
+
+                    </p>
+
+                  </div>
+
+                  <ArrowUpRight
+                    size={22}
+                  />
+
+                </div>
 
               </div>
 
-            </div>
+            ))
 
-          ))
+          }
 
-        }
+        </div>
 
       </div>
 
