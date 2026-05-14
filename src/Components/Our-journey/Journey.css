@@ -1,0 +1,386 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Michroma&display=swap');
+
+/* =========================================
+ROOT
+========================================= */
+
+:root{
+
+  --bg:#05060a;
+
+  --text:#ffffff;
+
+  --muted:
+    rgba(255,255,255,0.65);
+
+  --accent:#ffbf36;
+
+  --font-heading:
+    'Michroma',
+    sans-serif;
+
+  --font-body:
+    'Inter',
+    sans-serif;
+
+}
+
+/* =========================================
+SECTION
+========================================= */
+
+.jr-section{
+  position:relative;
+
+  width:100%;
+
+  min-height:220vh;
+
+  overflow:hidden;
+
+  background:var(--bg);
+
+  padding:140px 5vw;
+}
+
+/* =========================================
+BACKGROUND TYPOGRAPHY
+========================================= */
+
+.jr-bg-text{
+  position:absolute;
+
+  top:8%;
+
+  left:0;
+
+  font-size:
+    clamp(8rem,18vw,20rem);
+
+  line-height:1;
+
+  white-space:nowrap;
+
+  color:
+    rgba(255,255,255,0.03);
+
+  font-family:
+    var(--font-heading);
+
+  pointer-events:none;
+
+  user-select:none;
+}
+
+/* =========================================
+GLOW
+========================================= */
+
+.jr-glow{
+  position:absolute;
+
+  width:700px;
+  height:700px;
+
+  top:-10%;
+  right:-10%;
+
+  background:
+    radial-gradient(
+
+      circle,
+
+      rgba(255,191,54,0.12),
+
+      transparent 70%
+
+    );
+
+  filter:blur(90px);
+}
+
+/* =========================================
+TOP
+========================================= */
+
+.jr-top{
+  position:relative;
+
+  z-index:2;
+
+  max-width:700px;
+
+  margin-bottom:140px;
+}
+
+.jr-label{
+  color:var(--accent);
+
+  letter-spacing:4px;
+
+  font-size:0.78rem;
+
+  margin-bottom:24px;
+
+  font-family:
+    var(--font-body);
+}
+
+.jr-heading{
+  font-size:
+    clamp(3rem,6vw,6rem);
+
+  line-height:1;
+
+  margin-bottom:30px;
+
+  color:var(--text);
+
+  font-weight:400;
+
+  font-family:
+    var(--font-heading);
+}
+
+.jr-subtext{
+  color:var(--muted);
+
+  max-width:500px;
+
+  line-height:1.9;
+
+  font-size:1rem;
+
+  margin-bottom:40px;
+
+  font-family:
+    var(--font-body);
+}
+
+/* =========================================
+STATUS
+========================================= */
+
+.jr-status{
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+  color:white;
+
+  font-size:0.92rem;
+
+  font-family:
+    var(--font-body);
+}
+
+.jr-status span{
+  width:10px;
+  height:10px;
+
+  border-radius:50%;
+
+  background:var(--accent);
+
+  box-shadow:
+    0 0 18px
+    var(--accent);
+}
+
+/* =========================================
+WALL
+========================================= */
+
+.jr-wall{
+  position:relative;
+
+  width:100%;
+
+  height:1500px;
+}
+
+/* =========================================
+CARD
+========================================= */
+
+.jr-card{
+  position:absolute;
+
+  width:320px;
+
+  border-radius:28px;
+
+  overflow:hidden;
+
+  background:
+    rgba(255,255,255,0.05);
+
+  border:
+    1px solid
+    rgba(255,255,255,0.08);
+
+  backdrop-filter:
+    blur(20px);
+
+  box-shadow:
+    0 30px 80px
+    rgba(0,0,0,0.45);
+
+  transition:
+    transform 0.5s ease;
+}
+
+.jr-card:hover{
+  transform:
+    translateY(-10px)
+    scale(1.02);
+}
+
+/* =========================================
+POSITIONS
+========================================= */
+
+.card-0{
+  top:0;
+  left:5%;
+}
+
+.card-1{
+  top:240px;
+  right:8%;
+}
+
+.card-2{
+  top:520px;
+  left:22%;
+}
+
+.card-3{
+  top:820px;
+  right:18%;
+}
+
+.card-4{
+  top:1120px;
+  left:10%;
+}
+
+/* =========================================
+IMAGE
+========================================= */
+
+.jr-image{
+  width:100%;
+
+  height:420px;
+
+  overflow:hidden;
+}
+
+.jr-image img{
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  transition:
+    transform 0.8s ease;
+}
+
+.jr-card:hover img{
+  transform:scale(1.06);
+}
+
+/* =========================================
+OVERLAY
+========================================= */
+
+.jr-overlay{
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:flex-end;
+
+  padding:24px;
+}
+
+.jr-overlay p{
+  color:var(--accent);
+
+  font-size:0.72rem;
+
+  letter-spacing:2px;
+
+  margin-bottom:10px;
+
+  font-family:
+    var(--font-body);
+}
+
+.jr-overlay h3{
+  color:var(--text);
+
+  font-size:1.4rem;
+
+  line-height:1.4;
+
+  font-weight:500;
+
+  font-family:
+    var(--font-body);
+}
+
+.jr-overlay svg{
+  color:white;
+
+  flex-shrink:0;
+}
+
+/* =========================================
+MOBILE
+========================================= */
+
+@media(max-width:992px){
+
+  .jr-wall{
+    display:flex;
+
+    flex-direction:column;
+
+    gap:40px;
+
+    height:auto;
+  }
+
+  .jr-card{
+    position:relative;
+
+    width:100%;
+
+    top:auto !important;
+    left:auto !important;
+    right:auto !important;
+
+    transform:none !important;
+  }
+
+}
+
+@media(max-width:768px){
+
+  .jr-section{
+    padding:100px 20px;
+  }
+
+  .jr-image{
+    height:320px;
+  }
+
+  .jr-overlay h3{
+    font-size:1.1rem;
+  }
+
+}
