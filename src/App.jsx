@@ -6,7 +6,7 @@ import FeaturedWork from './Components/Featured-work/Featured'
 import AboutSection from './Components/About/about'
 import ReviewsSection from './Components/Review/Review'
 import Journey from './Components/Our-journey/Journey'
-
+import CtaSection from './Components/CtaSection/Ctasection'
 
 const App = () => {
   return (
@@ -18,6 +18,7 @@ const App = () => {
     <AboutSection />
     <ReviewsSection />
     <Journey />
+    <CtaSection />
     </>
   )
 }
