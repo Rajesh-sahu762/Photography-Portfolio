@@ -34,13 +34,14 @@ SECTION
 
   width:100%;
 
-  height:100vh;
+  min-height:100vh;
 
   overflow:hidden;
 
   background:var(--bg);
-}
 
+  padding-top:100px;
+}
 /* =========================================
 BG TEXT
 ========================================= */
@@ -87,7 +88,7 @@ TOP CONTENT
 
   margin:0 auto;
 
-  padding-top:110px;
+  /* padding-top:10px; */
 
   text-align:center;
 
@@ -99,7 +100,7 @@ TOP CONTENT
 
   letter-spacing:4px;
 
-  font-size:0.78rem;
+  font-size:0.58rem;
 
   margin-bottom:24px;
 
@@ -109,7 +110,7 @@ TOP CONTENT
 
 .jr-heading{
   font-size:
-    clamp(3rem,5vw,5.5rem);
+    clamp(1.5rem,3vw,3.5rem);
 
   line-height:0.95;
 
@@ -147,17 +148,17 @@ STACK AREA
 ========================================= */
 
 .jr-stack-wrap{
-  position:absolute;
+  position:relative;
 
-  inset:0;
+  width:100%;
 
   display:flex;
 
   justify-content:center;
 
-  align-items:flex-start;
+  /* margin-top:20px; */
 
-  padding-top:340px;
+  /* padding-bottom:100px; */
 
   z-index:10;
 }
@@ -169,9 +170,9 @@ STACK
 .jr-stack{
   position:relative;
 
-  width:820px;
+  width:900px;
 
-  height:620px;
+  height:550px;
 }
 
 /* =========================================
@@ -181,11 +182,11 @@ CARD
 .jr-card{
   position:absolute;
 
-  width:340px;
+  width:360px;
 
-  height:500px;
+  height:420px;
 
-  border-radius:26px;
+  border-radius:28px;
 
   overflow:hidden;
 
@@ -310,67 +311,54 @@ TABLET
 /* =========================================
 MOBILE
 ========================================= */
-
 @media(max-width:768px){
 
   .jr-section{
-    height:100svh;
+    padding-top:80px;
   }
 
   .jr-bg-text{
-    top:14%;
+    top:18%;
 
-    font-size:28vw;
+    font-size:26vw;
   }
 
   .jr-top{
-    padding-top:100px;
+    padding-inline:20px;
   }
 
   .jr-heading{
-    font-size:3rem;
+    font-size:2.6rem;
 
     line-height:1;
   }
 
   .jr-subtext{
-    font-size:0.92rem;
+    font-size:0.9rem;
   }
 
   .jr-stack-wrap{
-    padding-top:420px;
-
     justify-content:flex-start;
 
+    overflow-x:hidden;
+
     padding-left:20px;
+
+    margin-top:60px;
   }
 
   .jr-stack{
     width:100%;
 
-    height:520px;
+    height:500px;
   }
 
   .jr-card{
+
     width:240px;
 
     height:360px;
-  }
 
-  .jr-content{
-    padding:14px;
-  }
-
-  .jr-content h3{
-    font-size:1rem;
-  }
-
-  .jr-content p{
-    font-size:0.8rem;
-  }
-
-  .jr-content span{
-    font-size:0.6rem;
   }
 
 }

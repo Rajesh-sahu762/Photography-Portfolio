@@ -303,14 +303,14 @@ export default function Journey(){
 
                 style={{
 
-                  zIndex:
-                    index + 1,
+                zIndex:
+  index + 1,
 
                   left:
-                    `${index * 55}px`,
+  `${index * 55}px`,
 
-                  top:
-                    `${index * 22}px`,
+top:
+  `${index * 20}px`,
 
                 }}
 
