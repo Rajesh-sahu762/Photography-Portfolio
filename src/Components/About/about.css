@@ -235,13 +235,19 @@
 
   width:100%;
 
-  height:82vh;
+  height:75vh;
 
   overflow:hidden;
 
   border-radius:38px;
 
   background:#111;
+
+   transform:
+    translateZ(0);
+
+  will-change:
+    transform;
 
   border:
     1px solid
@@ -263,17 +269,23 @@
 }
 
 .ab-video{
+
   width:100%;
   height:100%;
-  pointer-events: none;
 
   object-fit:cover;
 
-  transform:scale(1.05);
+  pointer-events:none;
 
-  filter:
-    contrast(1.05)
-    brightness(0.95);
+  transform:
+    translateZ(0)
+    scale(1.02);
+
+  will-change:
+    transform;
+
+  backface-visibility:hidden;
+
 }
 
 /* =========================================
@@ -287,12 +299,8 @@
 
   inset:0;
 
-  background-image:
-    url("https://www.transparenttextures.com/patterns/asfalt-light.png");
-
-  opacity:0.08;
-
-  mix-blend-mode:soft-light;
+  background:
+    rgba(255,255,255,0.02);
 
   pointer-events:none;
 }

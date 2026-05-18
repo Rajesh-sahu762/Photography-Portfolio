@@ -130,7 +130,7 @@ scrollTrigger:{
 
               end:"bottom top",
 
-              scrub:true,
+              scrub: 0.8,
 
             }
 
@@ -294,7 +294,7 @@ scrollTrigger:{
 
           <div className="ab-video-box">
 
-           <video
+    <video
 
   autoPlay
 
@@ -304,13 +304,9 @@ scrollTrigger:{
 
   playsInline
 
-  disablePictureInPicture
+  preload="metadata"
 
-  controlsList="
-    nodownload
-    noplaybackrate
-    noremoteplayback
-  "
+  disablePictureInPicture
 
   disableRemotePlayback
 

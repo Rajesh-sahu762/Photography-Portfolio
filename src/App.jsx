@@ -7,7 +7,8 @@ import AboutSection from './Components/About/about'
 import ReviewsSection from './Components/Review/Review'
 import Journey from './Components/Our-journey/Journey'
 import CtaSection from './Components/CtaSection/Ctasection'
-import LucentFooter from './Components/Footer/footer'
+import Footer from './Components/Footer/footer'
+
 
 const App = () => {
   return (
@@ -20,7 +21,7 @@ const App = () => {
     <ReviewsSection />
     <Journey />
     <CtaSection />
-    <LucentFooter />
+    <Footer />
     </>
   )
 }

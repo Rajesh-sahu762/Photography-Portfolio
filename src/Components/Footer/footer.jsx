@@ -1,222 +1,174 @@
-import { useEffect, useRef, useState, useCallback } from "react";
-import "./Footer.css";
+import React from 'react';
+import { motion } from 'framer-motion';
 
-/* ─── smooth lerp ─── */
-const lerp = (a, b, t) => a + (b - a) * t;
-
-export default function LucentFooter() {
-  const footerRef    = useRef(null);
-  const gimbalRef    = useRef(null);
-  const glowRef      = useRef(null);
-  const rafRef       = useRef(null);
-
-  /* raw target */
-  const targetRef = useRef({ x: 0, y: 0, dist: 0 });
-  /* smoothed current */
-  const currentRef = useRef({ rotX: 0, rotY: 0, tx: 0, ty: 0 });
-
-  const [hovered, setHovered] = useState(false);
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
-
-  /* ── mouse move handler ── */
-  const onMouseMove = useCallback((e) => {
-    const footer = footerRef.current;
-    if (!footer) return;
-
-    const rect   = footer.getBoundingClientRect();
-    /* Normalize -1 to +1 relative to footer center */
-    const nx     = ((e.clientX - rect.left) / rect.width  - 0.5) * 2;
-    const ny     = ((e.clientY - rect.top)  / rect.height - 0.5) * 2;
-    const dist   = Math.hypot(nx, ny);
-
-    targetRef.current = { x: nx, y: ny, dist };
-    setCursorPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-  }, []);
-
-  /* ── animation loop ── */
-  useEffect(() => {
-    const MAX_ROT_X =  14;   // degrees tilt up/down
-    const MAX_ROT_Y =  22;   // degrees pan left/right
-    const MAX_TX    =  28;   // px lateral drift
-    const MAX_TY    =  12;   // px vertical drift
-    const SPEED     =  0.055; // lerp factor — lower = more lag
-
-    function tick() {
-      const gimbal = gimbalRef.current;
-      const glow   = glowRef.current;
-      if (!gimbal) { rafRef.current = requestAnimationFrame(tick); return; }
-
-      const t  = targetRef.current;
-      const c  = currentRef.current;
-
-      /* Smooth toward target */
-      c.rotX = lerp(c.rotX, -t.y * MAX_ROT_X, SPEED);
-      c.rotY = lerp(c.rotY,  t.x * MAX_ROT_Y, SPEED);
-      c.tx   = lerp(c.tx,    t.x * MAX_TX,     SPEED);
-      c.ty   = lerp(c.ty,    t.y * MAX_TY,     SPEED);
-
-      gimbal.style.transform =
-        `translate(${c.tx}px, ${c.ty}px) ` +
-        `rotateX(${c.rotX}deg) ` +
-        `rotateY(${c.rotY}deg)`;
-
-      /* Glow tracks cursor */
-      if (glow) {
-        glow.style.transform =
-          `translate(${lerp(0, t.x * 60, SPEED * 2)}px, ${lerp(0, t.y * 40, SPEED * 2)}px)`;
-        glow.style.opacity = `${0.4 + t.dist * 0.25}`;
-      }
-
-      rafRef.current = requestAnimationFrame(tick);
+const Footer = () => {
+  // Animation variants for buttery smooth entry without scroll-lag
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
     }
+  };
 
-    rafRef.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafRef.current);
-  }, []);
-
-  /* ── reset on mouse leave ── */
-  const onMouseLeave = useCallback(() => {
-    setHovered(false);
-    targetRef.current = { x: 0, y: 0, dist: 0 };
-  }, []);
-
-  const onMouseEnter = useCallback(() => setHovered(true), []);
-
-  const navLinks = [
-    { label: "Portfolio",   href: "#portfolio"   },
-    { label: "About",       href: "#about"        },
-    { label: "Services",    href: "#services"     },
-    { label: "Contact",     href: "#contact"      },
-  ];
-
-  const socials = [
-    { label: "IG", href: "#" },
-    { label: "YT", href: "#" },
-    { label: "BE", href: "#" },
-    { label: "LI", href: "#" },
-  ];
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
 
   return (
-    <footer
-      ref={footerRef}
-      className="lf-footer"
-      onMouseMove={onMouseMove}
-      onMouseLeave={onMouseLeave}
-      onMouseEnter={onMouseEnter}
+    <footer 
+      style={{ 
+        backgroundColor: 'var(--color-bg)', 
+        fontFamily: 'var(--font-body)'
+      }}
+      className="relative min-h-screen w-full flex flex-col justify-between pt-32 pb-8 px-6 md:px-16"
     >
-      {/* ── ambient glow that chases cursor ── */}
-      <div ref={glowRef} className="lf-glow" />
+      
+      {/* 1. THE BRIDGE: Perfect transition from light theme to dark studio */}
+      <div 
+        style={{ 
+          background: 'linear-gradient(to bottom, var(--color-bg) 0%, var(--color-bg-secondary) 20%, #0a0a0a 60%, #050505 100%)' 
+        }}
+        className="absolute inset-0 z-0 pointer-events-none"
+      />
 
-      {/* ── noise grain ── */}
-      <div className="lf-grain" />
+      {/* 2. ZERO-LAG VIDEO BACKGROUND & OVERLAYS */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none z-10 overflow-hidden">
+        <video
+          src="/src/assets/Videos/footer-bg.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          className="w-full h-full object-cover opacity-75 brightness-[0.7] contrast-[1.15] transform-gpu"
+        />
 
-      {/* ── horizontal rule ── */}
-      <div className="lf-hr" />
+        {/* Studio Vignette Overlay for Premium Contrast */}
+        <div 
+          style={{ 
+            background: 'linear-gradient(to top, #050505 25%, rgba(10, 10, 10, 0.4) 75%, transparent 100%)' 
+          }}
+          className="absolute inset-0"
+        />
+        
+        {/* DSLR Camera Grid Tech Overlay */}
+        <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:40px_40px]" />
+      </div>
 
-      {/* ══════════════ MAIN CONTENT ══════════════ */}
-      <div className="lf-body">
-
-        {/* LEFT — brand + nav */}
-        <div className="lf-left">
-          <div className="lf-brand">
-            <span className="lf-brand__mark">LS</span>
-            <div className="lf-brand__text">
-              <span className="lf-brand__name">Lucent Studio</span>
-              <span className="lf-brand__tagline">Light · Motion · Story</span>
-            </div>
+      {/* 3. UPPER CONTENT: INTERACTIVE EDITORIAL GRID */}
+      <motion.div 
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.2 }}
+        className="relative z-20 grid grid-cols-1 md:grid-cols-12 gap-8 w-full mt-12 text-[#ECE9E2]"
+      >
+        
+        {/* Left Side: Brand Vision */}
+        <motion.div variants={fadeInUp} className="md:col-span-6 flex flex-col justify-between gap-12">
+          <div className="space-y-4">
+            <span 
+              style={{ fontFamily: 'var(--font-ui)', color: 'var(--color-accent-soft)' }}
+              className="text-[11px] uppercase tracking-[0.4em] block"
+            >
+              // LUXURY VISUAL STUDIO
+            </span>
+            <p className="text-xl md:text-2xl font-light text-[var(--color-bg-secondary)] max-w-md leading-relaxed">
+              Capturing high-end perspectives. Elevating digital experiences through premium cinematic storytelling.
+            </p>
           </div>
-
-          <nav className="lf-nav">
-            {navLinks.map((l) => (
-              <a key={l.label} href={l.href} className="lf-nav__link">
-                <span className="lf-nav__num">—</span>
-                {l.label}
-              </a>
-            ))}
-          </nav>
-
-          <div className="lf-contact">
-            <a href="mailto:hello@lucentstudio.in" className="lf-contact__email">
-              hello@lucentstudio.in
-            </a>
-            <span className="lf-contact__loc">Jaipur, Rajasthan · India</span>
-          </div>
-        </div>
-
-        {/* CENTER — gimbal hero */}
-        <div className="lf-center">
-          <div className={`lf-gimbal-stage ${hovered ? "lf-gimbal-stage--hovered" : ""}`}>
-            {/* Lens flare ring */}
-            <div className="lf-ring lf-ring--1" />
-            <div className="lf-ring lf-ring--2" />
-
-            {/* The tracking image */}
-            <div ref={gimbalRef} className="lf-gimbal">
-              <img
-                src="/src/assets/Images/gimbal.jpg"
-                alt="Camera Gimbal — Lucent Studio"
-                className="lf-gimbal__img"
-                draggable={false}
-              />
-              {/* Cinematic vignette over image */}
-              <div className="lf-gimbal__vignette" />
+          
+          {/* Tech Camera UI Details */}
+          <div 
+            style={{ fontFamily: 'var(--font-ui)' }} 
+            className="hidden md:flex gap-8 text-[#727272] text-[10px] tracking-[0.3em] uppercase border-l border-white/10 pl-4"
+          >
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"/> LIVE
             </div>
-
-            {/* Custom cursor dot */}
-            {hovered && (
-              <div
-                className="lf-cursor"
-                style={{ left: cursorPos.x, top: cursorPos.y }}
-              />
-            )}
-
-            {/* Hover prompt */}
-            <div className={`lf-hint ${hovered ? "lf-hint--hidden" : ""}`}>
-              <span>Move cursor to aim</span>
-            </div>
+            <div>FPS / 24.00</div>
+            <div>ISO / 320</div>
           </div>
+        </motion.div>
 
-          <p className="lf-center__caption">
-            Every frame,<br />deliberately composed.
+        {/* Right Side: Clean Micro-interactive Links */}
+        <motion.div variants={fadeInUp} className="md:col-span-4 md:col-start-9 flex flex-col gap-6 md:items-end">
+          <div className="w-full md:max-w-[240px] flex flex-col gap-4">
+            <span 
+              style={{ fontFamily: 'var(--font-ui)', color: 'var(--color-accent)' }}
+              className="text-[11px] uppercase tracking-[0.4em] font-semibold"
+            >
+              NAVIGATION
+            </span>
+            <nav 
+              style={{ fontFamily: 'var(--font-ui)' }} 
+              className="flex flex-col gap-1 text-lg font-medium tracking-wider"
+            >
+              {['INDEX', 'PORTFOLIO', 'ABOUT STUDIO', 'INQUIRE'].map((item) => (
+                <a 
+                  key={item} 
+                  href={`#${item.toLowerCase()}`} 
+                  className="hover:text-white text-[var(--color-bg-secondary)] transition-colors duration-300 py-2 border-b border-white/5 flex justify-between items-center group"
+                >
+                  <span>{item}</span>
+                  <span className="text-[var(--color-accent)] opacity-0 transform translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">↗</span>
+                </a>
+              ))}
+            </nav>
+          </div>
+        </motion.div>
+      </motion.div>
+
+      {/* 4. LOWER CONTENT: THE MAJESTIC BRAND LOGO (LUCENT STUDIO) */}
+      <motion.div 
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.1 }}
+        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+        className="relative z-20 w-full flex flex-col gap-4 mt-auto pt-16 text-[#ECE9E2]"
+      >
+        
+        {/* Massive Brand Title */}
+        <div className="w-full overflow-hidden select-none pointer-events-none pb-2">
+          <h1 
+            style={{ 
+              fontFamily: 'var(--font-heading)',
+              fontSize: 'var(--text-display-xl)',
+              lineHeight: 0.8
+            }}
+            className="w-full tracking-tighter uppercase font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#ECE9E2] via-[#ECE9E2]/50 to-transparent"
+          >
+            LUCENT
+          </h1>
+          <p 
+            style={{ fontFamily: 'var(--font-ui)', color: 'var(--color-accent)' }}
+            className="text-sm md:text-base tracking-[0.6em] uppercase mt-2 font-medium ml-2"
+          >
+            STUDIO
           </p>
         </div>
 
-        {/* RIGHT — socials + cta */}
-        <div className="lf-right">
-          <div className="lf-socials">
-            <span className="lf-socials__label">Follow</span>
-            {socials.map((s) => (
-              <a key={s.label} href={s.href} className="lf-socials__item">
-                {s.label}
-              </a>
-            ))}
+        {/* Copyright and Socials */}
+        <div className="flex flex-col sm:flex-row justify-between items-center text-[#727272] text-[10px] tracking-[0.2em] uppercase gap-4 border-t border-white/10 pt-6 mt-4">
+          <div className="flex gap-8 font-medium">
+            <a href="#" className="hover:text-[var(--color-accent-soft)] transition-colors duration-300">TWITTER</a>
+            <a href="#" className="hover:text-[var(--color-accent-soft)] transition-colors duration-300">INSTAGRAM</a>
+            <a href="#" className="hover:text-[var(--color-accent-soft)] transition-colors duration-300">LINKEDIN</a>
           </div>
-
-          <a href="#contact" className="lf-cta">
-            <span className="lf-cta__text">Book a Shoot</span>
-            <span className="lf-cta__arrow">↗</span>
-          </a>
-
-          <div className="lf-availability">
-            <span className="lf-availability__dot" />
-            <span>Available for bookings · 2025</span>
+          <div className="opacity-80">
+            © {new Date().getFullYear()} LUCENT STUDIO. ALL RIGHTS RESERVED.
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* ══════════════ BOTTOM BAR ══════════════ */}
-      <div className="lf-bottom">
-        <span className="lf-bottom__copy">
-          © {new Date().getFullYear()} Lucent Studio. All rights reserved.
-        </span>
-        <div className="lf-bottom__divider" />
-        <span className="lf-bottom__craft">
-          Crafted with obsession in Jaipur
-        </span>
-      </div>
-
-      {/* ── giant watermark ── */}
-      <div className="lf-watermark" aria-hidden="true">LUCENT</div>
     </footer>
   );
-}
+};
+
+export default Footer;
